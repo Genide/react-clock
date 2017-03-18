@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
   constructor(props) {
     super(props);
     var dateTime = new Date();
+    // This should be the same as your updateDateTime function
     this.state = {
       hours: dateTime.getHours(),
       minutes: dateTime.getMinutes(),
@@ -14,7 +14,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // setTimeout(this.updateDateTime.bind(this), 5000);
     setInterval(this.updateDateTime.bind(this), 1000)
   }
 
@@ -23,13 +22,9 @@ class App extends Component {
     var hour = dateTime.getHours();
     var minute = dateTime.getMinutes().toLocaleString("US",{minimumIntegerDigits:2});
     var second = dateTime.getSeconds().toLocaleString("US",{minimumIntegerDigits:2});
-//    var addZero = function(digit){
-  //    var num = "0" + digit.toString();
-    //  return num;
-    //}
-    //if(second<10){
-      //second = addZero(second);
-    //}
+
+    // What happens if you hour 0 or 12?
+    // Can this be condensed to one if statement?
     var ampm;
     if(hour>11){
       ampm=" PM";
@@ -40,6 +35,8 @@ class App extends Component {
     if(hour>11){
       hour-=12;
     }
+
+    // ampm1 is a bad name
     this.setState({
       hours: hour,
       minutes: minute,
