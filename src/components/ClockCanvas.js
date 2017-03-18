@@ -13,13 +13,10 @@ class ClockCanvas extends React.Component {
   componentDidMount() {
     this.canvas = document.getElementById("clockCanvas");
     this.ctx = this.canvas.getContext("2d");
-    // this.ctx.font = "30px Arial";
-    // this.ctx.fillRect(0,0,150,75);
     this.update(this.props);
   }
 
   componentWillUpdate(nextProps, nextState) {
-    // console.log(nextProps);
     this.update(nextProps);
   }
 
@@ -31,33 +28,33 @@ class ClockCanvas extends React.Component {
     this.drawHourHand(nextProps);
     this.drawMinuteHand(nextProps);
     this.drawSecondHand(nextProps);
-    // this.ctx.fillText(nextProps.hour, 10, 50);
-    // this.ctx.fillText(nextProps.minute, 50, 50);
-    // this.ctx.fillText(nextProps.second, 90, 50);
     this.ctx.restore();
   }
 
   drawClockLayout() {
     this.ctx.save();
+    this.ctx.lineWidth = 10;
     this.ctx.beginPath();
-    this.ctx.arc(this.props.width/2, this.props.height/2, this.radius, 0, 2*Math.PI);
+    this.ctx.arc(this.props.width/2, this.props.height/2, this.radius - 5, 0, 2*Math.PI);
     this.ctx.stroke();
-    this.drawTicks();
     this.ctx.restore();
+    this.drawTicks();
   }
 
   drawTicks() {
     let centerWidth = this.props.width/2;
     let centerHeight = this.props.height/2;
-    var tickSize;
+    var tickInner,angle;
+    angle = Math.PI/30;
     this.ctx.save();
+    this.ctx.lineWidth = 2;
     this.ctx.translate(centerWidth,centerHeight);
-    this.ctx.rotate(-Math.PI/30);
+    this.ctx.rotate(-angle);
     this.ctx.beginPath();
     for (var i = 0; i < 60; i++) {
-      tickSize = (i % 5 === 0) ? centerWidth-(this.radius/10) : this.radius-(this.radius/30);
-      this.ctx.rotate(Math.PI/30);
-      this.ctx.moveTo(0, tickSize);
+      tickInner = (i % 5 === 0) ? this.radius - 10 -(this.radius/10) : this.radius - 10 - (this.radius/30);
+      this.ctx.rotate(angle);
+      this.ctx.moveTo(0, tickInner);
       this.ctx.lineTo(0, this.radius);
       this.ctx.stroke();
     }
