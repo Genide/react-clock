@@ -11,6 +11,19 @@ class AnalogClock extends React.Component {
     this.someContext.beginPath();
     this.someContext.arc(250,250,250,0,2*Math.PI);
     this.someContext.stroke();
+    this.drawTicks();
+  }
+  drawTicks() {
+    this.someContext.save();
+    this.someContext.translate(250, 250);
+    for (var i = 0; i < 4; i++) {
+      this.someContext.rotate(Math.PI/2);
+      this.someContext.beginPath();
+      this.someContext.moveTo(0, 0);
+      this.someContext.lineTo(0, -250);
+      this.someContext.stroke();
+    }
+    this.someContext.restore();
   }
   render() {
     return (
