@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import ClockDigital from './components/ClockDigital.js';
+import ClockCanvas from './components/ClockCanvas.js';
 
 class App extends Component {
   constructor(props) {
@@ -9,53 +10,47 @@ class App extends Component {
     this.state = {
       hours: dateTime.getHours(),
       minutes: dateTime.getMinutes(),
-      seconds: dateTime.getSeconds()
+      seconds: dateTime.getSeconds(),
+      milliseconds: dateTime.getMilliseconds()
     };
   }
 
   componentDidMount() {
     // setTimeout(this.updateDateTime.bind(this), 5000);
-    setInterval(this.updateDateTime.bind(this), 1000)
+    setInterval(this.updateDateTime.bind(this), 1000/60);
   }
 
   updateDateTime() {
     var dateTime = new Date();
-    var hour = dateTime.getHours();
-    var minute = dateTime.getMinutes().toLocaleString("US",{minimumIntegerDigits:2});
-    var second = dateTime.getSeconds().toLocaleString("US",{minimumIntegerDigits:2});
-//    var addZero = function(digit){
-  //    var num = "0" + digit.toString();
-    //  return num;
-    //}
-    //if(second<10){
-      //second = addZero(second);
-    //}
-    var ampm;
-    if(hour>11){
-      ampm=" PM";
-    }
-    else {
-      ampm=" AM";
-    }
-    if(hour>11){
-      hour-=12;
-    }
+    var hours = dateTime.getHours();
+    var minutes = dateTime.getMinutes();
+    var seconds = dateTime.getSeconds();
+    var milliseconds = dateTime.getMilliseconds()
+
     this.setState({
-      hours: hour,
-      minutes: minute,
-      seconds: second,
-      ampm1: ampm
+      hours,
+      minutes,
+      seconds,
+      milliseconds
     });
   }
 
   render() {
     return (
       <div className="App">
-        <span>{this.state.hours}:</span>
-        <span>{this.state.minutes}:</span>
-        <span>{this.state.seconds}</span>
-        <span>{this.state.ampm1}</span>
-
+        <ClockDigital
+          hour={this.state.hours}
+          minute={this.state.minutes}
+          second={this.state.seconds}
+        />
+        <ClockCanvas
+          hour={this.state.hours}
+          minute={this.state.minutes}
+          second={this.state.seconds}
+          milliseconds={this.state.milliseconds}
+          width={500}
+          height={500}
+        />
       </div>
     );
   }
