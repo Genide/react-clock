@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import AnalogClock from './components/AnalogClock';
 
 class App extends Component {
   constructor(props) {
@@ -26,13 +27,18 @@ class App extends Component {
     // What happens if you hour 0 or 12?
     // Can this be condensed to one if statement?
     var ampm;
-    if(hour>11){
-      ampm=" PM";
+    if(hour===0){
+      ampm=" AM";
+      hour+=12;
     }
-    else {
+    else if (hour<12) {
       ampm=" AM";
     }
-    if(hour>11){
+    else if (hour===12) {
+      ampm=" PM";
+    }
+    else{
+      ampm=" PM";
       hour-=12;
     }
 
@@ -41,7 +47,7 @@ class App extends Component {
       hours: hour,
       minutes: minute,
       seconds: second,
-      ampm1: ampm
+      ampm
     });
   }
 
@@ -51,7 +57,8 @@ class App extends Component {
         <span>{this.state.hours}:</span>
         <span>{this.state.minutes}:</span>
         <span>{this.state.seconds}</span>
-        <span>{this.state.ampm1}</span>
+        <span>{this.state.ampm}</span>
+        <AnalogClock hours={this.state.hours} minutes={this.state.minutes} seconds={this.state.seconds} ampm={this.state.ampm}></AnalogClock>
 
       </div>
     );
